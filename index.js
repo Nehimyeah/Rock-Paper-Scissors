@@ -1,3 +1,20 @@
+/**
+ * 
+ * Developed by Nehemiah Amanuel Tefera
+ * April 9, 2021
+ * 3:04 pm Ethiopian time
+ * This is a rock paper scissors game built for javascript console without userinterface.
+ * It was built as part of 'The Odin Project' curriculum in which it is going to get revisited
+ * later on in the course to build a more robust interface for the game.
+ * 
+ * I designed this game in such a way to eliminate all the if elses necessary to handle each winning
+ * and losing scenario by using integer values corresponding each three choices. I have also created
+ * some helper functions to interchange between words and numbers.
+ * 
+ * 
+ */
+
+// the choices array contain the choices according to their winning order
 const choices = ['Rock', 'Paper', 'Scissors'];
 let playerSelectionInWord = '';
 let computerScore = 0, playerScore = 0;
