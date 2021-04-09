@@ -1,5 +1,6 @@
 const choices = ['Rock', 'Paper', 'Scissors'];
 let playerSelectionInWord = '';
+let computerScore = 0, playerScore = 0;
 
 const computerPlay = () => {
     let randomNumber = Math.floor(Math.random() * 3);
@@ -33,14 +34,30 @@ function getSelectionInWord(choiceInNumber) {
 
 const playRound = (playerSelection, computerSelection) => {
     if (playerSelection - computerSelection === -1 || playerSelection - computerSelection  === 2) {
-        return `You won!`;
+        playerScore++;
+        return `You won! ${getSelectionInWord(playerSelection)} beats ${getSelectionInWord(computerSelection)}.`;
     } else if (playerSelection - computerSelection === 1 || playerSelection -  computerSelection === -2) {
-        return `You lose!`;
+        computerScore++
+        return `You lose! ${getSelectionInWord(computerSelection)} beats ${getSelectionInWord(playerSelection)}`;
     } else {
         return `It's a tie`;
     }
 }
 
-getPlayerChoice();
+function game() {
+    for (let i = 0; i < 5; i++) {
+        getPlayerChoice();
+        let computers = computerPlay();
+        console.log(playRound(getSelectionInNumber(playerSelectionInWord), computers));
+    }
 
-console.log(playRound(getSelectionInNumber(playerSelectionInWord), computerPlay()));
+    if (playerScore > computerScore) {
+        console.log(`player won the total game with the score of ${playerScore} to ${computerScore}`);
+    } else if (playerScore < computerScore) {
+        console.log(`computer won the total game with the score of ${computerScore} to ${playerScore}`);
+    } else {
+        console.log(`The game is over and the score is a tie with the score of ${computerScore} to ${playerScore}`);
+    }
+}
+
+game();
