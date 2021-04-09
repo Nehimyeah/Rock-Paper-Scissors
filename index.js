@@ -19,6 +19,18 @@ const clearUserInput = (userInput) => {
     return userInput;
 }
 
+function getSelectionInNumber(playerSelectionInWord) {
+    for (let i = 0; i < 3; i++) {
+        if (choices[i] === playerSelectionInWord) {
+            return i;
+        }
+    }
+}
+
+function getSelectionInWord(choiceInNumber) {
+    return choices[choiceInNumber];
+}
+
 const playRound = (playerSelection, computerSelection) => {
     if (playerSelection - computerSelection === -1 || playerSelection - computerSelection  === 2) {
         return `You won!`;
@@ -29,4 +41,6 @@ const playRound = (playerSelection, computerSelection) => {
     }
 }
 
-console.log(playRound(0, computerPlay()));
+getPlayerChoice();
+
+console.log(playRound(getSelectionInNumber(playerSelectionInWord), computerPlay()));
