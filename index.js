@@ -1,8 +1,16 @@
 const choices = ['Rock', 'Paper', 'Scissors'];
+let playerSelectionInWord = '';
 
 const computerPlay = () => {
     let randomNumber = Math.floor(Math.random() * 3);
     return randomNumber;
+}
+
+function getPlayerChoice() {
+    do {
+        playerSelectionInWord = prompt("Select from [Rock, Scissors, Paper]");
+        playerSelectionInWord = clearUserInput(playerSelectionInWord);
+    } while(!choices.includes(playerSelectionInWord));
 }
 
 const clearUserInput = (userInput) => {
