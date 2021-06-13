@@ -17,19 +17,20 @@
 // the choices array contain the choices according to their winning order
 const choices = ['Rock', 'Paper', 'Scissors'];
 let playerSelectionInWord = '';
+let computerSelectionInWord = '';
 let computerScore = 0, playerScore = 0;
 
 const computerPlay = () => {
-    let randomNumber = Math.floor(Math.random() * 3);
-    return randomNumber;
+    return Math.floor(Math.random() * 3);
 }
 
-function getPlayerChoice() {
-    do {
-        playerSelectionInWord = prompt("Select from [Rock, Scissors, Paper]");
-        playerSelectionInWord = clearUserInput(playerSelectionInWord);
-    } while(!choices.includes(playerSelectionInWord));
-}
+const buttons = document.querySelectorAll('button');
+buttons.forEach((button) => {
+    button.addEventListener('click', (e) => {
+        playerSelectionInWord = getSelectionInWord(e.target.id);
+        game();
+    })
+})
 
 const clearUserInput = (userInput) => {
     userInput = userInput.toLowerCase();
@@ -50,10 +51,10 @@ function getSelectionInWord(choiceInNumber) {
 }
 
 const playRound = (playerSelection, computerSelection) => {
-    if (playerSelection - computerSelection === -1 || playerSelection - computerSelection  === 2) {
+    if (playerSelection - computerSelection === 1 || playerSelection - computerSelection  === -2) {
         playerScore++;
         return `You won! ${getSelectionInWord(playerSelection)} beats ${getSelectionInWord(computerSelection)}.`;
-    } else if (playerSelection - computerSelection === 1 || playerSelection -  computerSelection === -2) {
+    } else if (playerSelection - computerSelection === -1 || playerSelection -  computerSelection === 2) {
         computerScore++
         return `You lose! ${getSelectionInWord(computerSelection)} beats ${getSelectionInWord(playerSelection)}`;
     } else {
@@ -62,19 +63,35 @@ const playRound = (playerSelection, computerSelection) => {
 }
 
 function game() {
-    for (let i = 0; i < 5; i++) {
-        getPlayerChoice();
-        let computers = computerPlay();
-        console.log(playRound(getSelectionInNumber(playerSelectionInWord), computers));
-    }
+    let computers = computerPlay();
+    computerSelectionInWord = getSelectionInWord(computers);
+    reportResult(playRound(getSelectionInNumber(playerSelectionInWord), computers));
 
-    if (playerScore > computerScore) {
-        console.log(`player won the total game with the score of ${playerScore} to ${computerScore}`);
-    } else if (playerScore < computerScore) {
-        console.log(`computer won the total game with the score of ${computerScore} to ${playerScore}`);
-    } else {
-        console.log(`The game is over and the score is a tie with the score of ${computerScore} to ${playerScore}`);
+    const result = document.querySelector('#winner');
+
+    if (playerScore == 5 || computerScore == 5) {
+        if (playerScore > computerScore) {
+            result.innerText = `player won the total game with the score of ${playerScore} to ${computerScore}`;
+        } else if (playerScore < computerScore) {
+            result.innerText = `computer won the total game with the score of ${computerScore} to ${playerScore}`;
+        } else {
+            result.innerText = `The game is over and the score is a tie with the score of ${computerScore} to ${playerScore}`;
+        }
     }
 }
 
-game();
+function reportResult(winner) {
+    const paragraphs = document.querySelectorAll('p');
+    paragraphs.forEach((p) => {
+        switch (p.id) {
+            case 'userChoice':
+                p.innerHTML = `Your choice is: <strong>${playerSelectionInWord}</strong>`;
+                break;
+            case 'computerChoice':
+                p.innerHTML = `Computer\'s choice is: <strong>${computerSelectionInWord}</strong>`;
+                break;
+            case 'declaration':
+                p.textContent = winner;
+        }
+    })
+}
